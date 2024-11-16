@@ -62,23 +62,31 @@ body {
 
 .form-container, .menu-container {
     background: var(--card-background);
-    padding: 30px;
+    padding: 40px;
     border-radius: 20px;
     box-shadow: 0 8px 24px var(--shadow-color);
     width: 100%;
+    max-width: 400px;
     backdrop-filter: blur(10px);
     transition: all 0.3s ease;
 }
 
 input[type="tel"] {
-    flex: 1;
-    padding: 12px;
+    width: 100%;
+    padding: 15px;
     border: 2px solid var(--input-border);
-    border-radius: 10px;
+    border-radius: 12px;
     font-size: 16px;
     background: var(--card-background);
     color: var(--text-color);
     transition: all 0.3s ease;
+    text-align: center;
+}
+
+input[type="tel"]::placeholder {
+    text-align: center;
+    color: var(--text-color);
+    opacity: 0.6;
 }
 
 .menu-button {
@@ -168,24 +176,32 @@ input[type="tel"] {
 
 .phone-input {
     display: flex;
-    gap: 10px;
+    flex-direction: column;
+    gap: 15px;
     margin-top: 20px;
+    width: 100%;
 }
 
 .button {
+    width: 100%;
     background-color: var(--primary-color);
     color: white;
     border: none;
-    padding: 12px 24px;
-    border-radius: 10px;
+    padding: 15px;
+    border-radius: 12px;
     cursor: pointer;
     font-size: 16px;
-    transition: transform 0.2s ease, background-color 0.3s ease;
+    font-weight: 500;
+    transition: all 0.3s ease;
 }
 
 .button:hover {
     background-color: var(--secondary-color);
     transform: translateY(-2px);
+}
+
+.button:active {
+    transform: translateY(0);
 }
 
 .icon {
@@ -198,8 +214,10 @@ input[type="tel"] {
 
 h2 {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
     color: var(--text-color);
+    font-size: 24px;
+    font-weight: 600;
 }
 
 .buttons-container {
