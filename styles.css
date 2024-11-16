@@ -3,6 +3,23 @@
     --secondary-color: #4a7fb3;
     --background-color: #f5f5f5;
     --text-color: #333;
+    --card-background: white;
+}
+
+[data-theme="dark"] {
+    --primary-color: #7ea8d6;
+    --secondary-color: #6b93c4;
+    --background-color: #1a1a1a;
+    --text-color: #ffffff;
+    --card-background: #2d2d2d;
+}
+
+[data-theme="gradient"] {
+    --primary-color: #8e2de2;
+    --secondary-color: #4a00e0;
+    --background-color: linear-gradient(135deg, #8e2de2 0%, #4a00e0 100%);
+    --text-color: #ffffff;
+    --card-background: rgba(255, 255, 255, 0.1);
 }
 
 * {
@@ -28,7 +45,7 @@ body {
 }
 
 .form-container, .menu-container {
-    background: white;
+    background: var(--card-background);
     padding: 30px;
     border-radius: 20px;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
@@ -125,4 +142,66 @@ h2 {
 /* Анимация при нажатии */
 .button:active, .menu-button:active {
     transform: scale(0.98);
+}
+
+.theme-switcher {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.theme-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    background: var(--primary-color);
+    color: white;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.theme-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.theme-menu {
+    position: absolute;
+    top: 50px;
+    right: 0;
+    background: var(--card-background);
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    display: none;
+}
+
+.theme-menu.active {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.theme-option {
+    padding: 8px 15px;
+    margin: 5px 0;
+    border: none;
+    background: none;
+    color: var(--text-color);
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+    border-radius: 5px;
+    transition: background-color 0.2s ease;
+}
+
+.theme-option:hover {
+    background-color: var(--primary-color);
+    color: white;
 } 
