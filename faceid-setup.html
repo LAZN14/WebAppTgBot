@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Настройка Face ID</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="faceid-container form-container">
+            <h2>Настройка Face ID</h2>
+            <div class="camera-container">
+                <video id="video" autoplay playsinline></video>
+                <canvas id="canvas" class="hidden"></canvas>
+            </div>
+            <div class="faceid-controls">
+                <button id="capture-btn" class="button">
+                    <span class="icon">📸</span>
+                    Сделать снимок
+                </button>
+                <button id="save-btn" class="button" disabled>
+                    <span class="icon">💾</span>
+                    Сохранить Face ID
+                </button>
+            </div>
+            <div class="face-preview hidden">
+                <img id="preview" src="" alt="Face Preview">
+            </div>
+        </div>
+    </div>
+    <script src="faceid.js"></script>
+</body>
+</html> 

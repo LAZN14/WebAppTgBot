@@ -231,4 +231,55 @@ h2 {
     transform: scale(0.98);
 }
 
-/* Остальные стили остаются без изменений */ 
+/* Остальные стили остаются без изменений */
+
+.faceid-container {
+    text-align: center;
+}
+
+.camera-container {
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto 20px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 20px;
+    box-shadow: 0 4px 15px var(--shadow-color);
+}
+
+#video {
+    width: 100%;
+    height: auto;
+    transform: scaleX(-1); /* Зеркальное отображение */
+}
+
+.face-preview {
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 15px;
+    background: var(--card-background);
+}
+
+.face-preview img {
+    max-width: 200px;
+    border-radius: 10px;
+}
+
+.faceid-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.faceid-controls .button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+} 

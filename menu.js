@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const residentsBtn = document.getElementById('residents-btn');
     const intercomBtn = document.getElementById('intercom-btn');
+    const faceidBtn = document.getElementById('faceid-btn');
 
     // Обработка кнопок главного меню
     residentsBtn.addEventListener('click', function() {
@@ -14,6 +15,10 @@ document.addEventListener('DOMContentLoaded', function() {
     intercomBtn.addEventListener('click', function() {
         showNotification('Переход к управлению домофоном...');
         // Здесь должна быть логика управления домофоном
+    });
+
+    faceidBtn.addEventListener('click', function() {
+        window.location.href = 'faceid-setup.html';
     });
 
     function showNotification(message) {
