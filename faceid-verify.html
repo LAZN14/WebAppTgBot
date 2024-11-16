@@ -6,6 +6,7 @@
     <title>Проверка Face ID</title>
     <link rel="stylesheet" href="styles.css">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/face-api.js"></script>
 </head>
 <body>
     <div class="container">
@@ -13,13 +14,8 @@
             <h2>Проверка Face ID</h2>
             <div class="camera-container">
                 <video id="video" autoplay playsinline></video>
-                <canvas id="canvas" class="hidden"></canvas>
-            </div>
-            <div class="faceid-controls">
-                <button id="verify-btn" class="button">
-                    <span class="icon">🔍</span>
-                    Проверить Face ID
-                </button>
+                <canvas id="overlay" class="face-overlay"></canvas>
+                <div id="status" class="status-text"></div>
             </div>
         </div>
     </div>
