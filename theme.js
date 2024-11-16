@@ -5,10 +5,11 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Загружаем сохраненную тему
     const savedTheme = localStorage.getItem('theme') || 'light';
-    document.documentElement.setAttribute('data-theme', savedTheme);
+    applyTheme(savedTheme);
     
     // Обработчик клика по кнопке темы
-    themeToggle.addEventListener('click', () => {
+    themeToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
         themeMenu.classList.toggle('active');
     });
     
@@ -21,17 +22,31 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Обработчик выбора темы
     themeOptions.forEach(option => {
-        option.addEventListener('click', () => {
+        option.addEventListener('click', (e) => {
+            e.stopPropagation();
             const theme = option.getAttribute('data-theme');
-            document.documentElement.setAttribute('data-theme', theme);
-            localStorage.setItem('theme', theme);
+            applyTheme(theme);
             themeMenu.classList.remove('active');
-            
-            // Анимация смены темы
-            document.documentElement.style.transition = 'all 0.3s ease';
-            setTimeout(() => {
-                document.documentElement.style.transition = '';
-            }, 300);
         });
     });
+
+    // Функция применения темы
+    function applyTheme(theme) {
+        document.documentElement.style.transition = 'all 0.3s ease';
+        document.documentElement.setAttribute('data-theme', theme);
+        localStorage.setItem('theme', theme);
+        
+        // Обновляем иконку кнопки в зависимости от темы
+        const themeIcons = {
+            'light': '☀️',
+            'dark': '🌙',
+            'gradient': '🌈'
+        };
+        themeToggle.textContent = themeIcons[theme];
+        
+        // Сбрасываем transition после применения темы
+        setTimeout(() => {
+            document.documentElement.style.transition = '';
+        }, 300);
+    }
 }); 
