@@ -27,8 +27,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Обработка входа по Face ID
     faceidLogin.addEventListener('click', function() {
-        // Для демонстрации всегда перенаправляем на страницу проверки
-        // В реальном приложении здесь должна быть проверка наличия Face ID в БД
+        // Всегда перенаправляем на страницу проверки Face ID
         window.location.href = 'faceid-verify.html';
     });
 
