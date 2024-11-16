@@ -6,7 +6,9 @@
     <title>Проверка Face ID</title>
     <link rel="stylesheet" href="styles.css">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/face-api.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/blazeface"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/face-landmarks-detection"></script>
 </head>
 <body>
     <div class="container">
@@ -16,6 +18,10 @@
                 <video id="video" autoplay playsinline></video>
                 <canvas id="overlay" class="face-overlay"></canvas>
                 <div id="status" class="status-text"></div>
+                <div class="face-guide">
+                    <div class="face-outline"></div>
+                    <div class="scanning-line"></div>
+                </div>
             </div>
         </div>
     </div>
