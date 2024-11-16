@@ -6,7 +6,8 @@
     <title>Настройка Face ID</title>
     <link rel="stylesheet" href="styles.css">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/face-api.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/blazeface"></script>
 </head>
 <body>
     <div class="container">
@@ -16,15 +17,13 @@
                 <video id="video" autoplay playsinline></video>
                 <canvas id="overlay" class="face-overlay"></canvas>
                 <div id="status" class="status-text"></div>
-            </div>
-            <div class="faceid-controls">
-                <button id="save-btn" class="button">
-                    <span class="icon">💾</span>
-                    Сохранить Face ID
-                </button>
+                <div class="face-guide">
+                    <div class="face-outline"></div>
+                    <div class="scanning-line"></div>
+                </div>
             </div>
         </div>
     </div>
-    <script src="faceid.js"></script>
+    <script src="faceid-setup.js"></script>
 </body>
 </html> 
