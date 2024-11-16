@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Проверка Face ID</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="faceid-container form-container">
+            <h2>Проверка Face ID</h2>
+            <div class="camera-container">
+                <video id="video" autoplay playsinline></video>
+                <canvas id="canvas" class="hidden"></canvas>
+            </div>
+            <div class="faceid-controls">
+                <button id="verify-btn" class="button">
+                    <span class="icon">🔍</span>
+                    Проверить Face ID
+                </button>
+            </div>
+        </div>
+    </div>
+    <script src="faceid-verify.js"></script>
+</body>
+</html> 

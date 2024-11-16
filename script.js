@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const phoneInput = document.getElementById('phone');
     const submitPhone = document.getElementById('submit-phone');
+    const faceidLogin = document.getElementById('faceid-login');
 
     // Форматирование номера телефона
     phoneInput.addEventListener('input', function(e) {
@@ -14,19 +15,23 @@ document.addEventListener('DOMContentLoaded', function() {
         e.target.value = value;
     });
 
-    // Обработка авторизации
+    // Обработка авторизации по номеру телефона
     submitPhone.addEventListener('click', function() {
         const phone = phoneInput.value;
         if (phone.length < 12) {
             showNotification('Введите корректный номер телефона');
             return;
         }
-
-        // После успешной авторизации перенаправляем на страницу меню
         window.location.href = 'menu.html';
     });
 
-    // Функция для показа уведомлений
+    // Обработка входа по Face ID
+    faceidLogin.addEventListener('click', function() {
+        // Для демонстрации всегда перенаправляем на страницу проверки
+        // В реальном приложении здесь должна быть проверка наличия Face ID в БД
+        window.location.href = 'faceid-verify.html';
+    });
+
     function showNotification(message) {
         tg.showPopup({
             title: 'Уведомление',
@@ -34,4 +39,5 @@ document.addEventListener('DOMContentLoaded', function() {
             buttons: [{type: 'ok'}]
         });
     }
+}); 
 }); 
