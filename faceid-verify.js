@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                 if (isGoodPosition) {
                     const similarity = compareFaces(face, savedFace);
                     
-                    if (similarity > 0.85) { // Увеличиваем порог схожести до 85%
+                    if (similarity > 0.95) { // Увеличиваем порог схожести до 95%
                         detectionCount++;
                         status.textContent = `Проверка... ${Math.floor((detectionCount/requiredDetections) * 100)}%`;
                         
@@ -99,7 +99,13 @@ document.addEventListener('DOMContentLoaded', async function() {
                         }
                     } else {
                         detectionCount = 0;
-                        status.textContent = 'Лицо не распознано';
+                        if (similarity > 0.85) {
+                            status.textContent = 'Похоже, но не совпадает';
+                        } else if (similarity > 0.7) {
+                            status.textContent = 'Лицо не распознано';
+                        } else {
+                            status.textContent = 'Лицо не совпадает';
+                        }
                     }
                 } else {
                     detectionCount = 0;
@@ -165,29 +171,98 @@ document.addEventListener('DOMContentLoaded', async function() {
             const landmarks1 = normalizeLandmarks(face1.landmarks);
             const landmarks2 = normalizeLandmarks(face2.landmarks);
             
+            // Проверяем количество точек
+            if (landmarks1.length !== landmarks2.length) {
+                console.log('Разное количество точек');
+                return 0;
+            }
+
+            // Вычисляем несколько метрик схожести
+            
+            // 1. Расстояние между соответствующими точками
             let totalDistance = 0;
+            let maxDistance = 0;
+            const distances = [];
+            
             for (let i = 0; i < landmarks1.length; i++) {
                 const dx = landmarks1[i][0] - landmarks2[i][0];
                 const dy = landmarks1[i][1] - landmarks2[i][1];
-                totalDistance += Math.sqrt(dx * dx + dy * dy);
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                distances.push(distance);
+                totalDistance += distance;
+                maxDistance = Math.max(maxDistance, distance);
             }
+
+            // 2. Проверяем пропорции лица
+            const face1Width = face1.bottomRight[0] - face1.topLeft[0];
+            const face1Height = face1.bottomRight[1] - face1.topLeft[1];
+            const face2Width = face2.faceSize.width;
+            const face2Height = face2.faceSize.height;
             
-            // Сравниваем размеры лица
-            const size1 = face1.bottomRight[0] - face1.topLeft[0];
-            const size2 = face2.faceSize.width;
-            const sizeDiff = Math.abs(size1 - size2) / Math.max(size1, size2);
+            const aspectRatio1 = face1Width / face1Height;
+            const aspectRatio2 = face2Width / face2Height;
+            const ratioDiff = Math.abs(aspectRatio1 - aspectRatio2);
+
+            // 3. Проверяем относительные расстояния между ключевыми точками
+            const relativeDists1 = calculateRelativeDistances(landmarks1);
+            const relativeDists2 = calculateRelativeDistances(landmarks2);
+            let relativeDistsError = 0;
             
-            // Делаем проверку более строгой
+            for (let i = 0; i < relativeDists1.length; i++) {
+                relativeDistsError += Math.abs(relativeDists1[i] - relativeDists2[i]);
+            }
+
+            // Вычисляем финальную оценку схожести
             const avgDistance = totalDistance / landmarks1.length;
-            const similarity = 1 - (avgDistance * 0.8 + sizeDiff * 0.2); // Увеличиваем вес расстояния
-            
-            console.log('Similarity:', similarity); // Для отладки
-            
+            const normalizedMaxDistance = maxDistance / landmarks1.length;
+            const distanceVariance = calculateVariance(distances);
+
+            const similarity = 1 - (
+                avgDistance * 0.3 +          // Среднее расстояние
+                normalizedMaxDistance * 0.2 + // Максимальное отклонение
+                ratioDiff * 0.2 +            // Разница пропорций
+                relativeDistsError * 0.2 +    // Ошибка относительных расстояний
+                distanceVariance * 0.1        // Вариативность расстояний
+            );
+
+            // Выводим детальную информацию для отладки
+            console.log('Similarity details:', {
+                avgDistance,
+                normalizedMaxDistance,
+                ratioDiff,
+                relativeDistsError,
+                distanceVariance,
+                finalSimilarity: similarity
+            });
+
             return similarity;
         } catch (err) {
             console.error('Ошибка сравнения лиц:', err);
             return 0;
         }
+    }
+
+    // Вычисление относительных расстояний между точками
+    function calculateRelativeDistances(landmarks) {
+        const distances = [];
+        for (let i = 0; i < landmarks.length; i++) {
+            for (let j = i + 1; j < landmarks.length; j++) {
+                const dx = landmarks[i][0] - landmarks[j][0];
+                const dy = landmarks[i][1] - landmarks[j][1];
+                distances.push(Math.sqrt(dx * dx + dy * dy));
+            }
+        }
+        return distances;
+    }
+
+    // Вычисление дисперсии
+    function calculateVariance(values) {
+        const mean = values.reduce((a, b) => a + b, 0) / values.length;
+        const squareDiffs = values.map(value => {
+            const diff = value - mean;
+            return diff * diff;
+        });
+        return squareDiffs.reduce((a, b) => a + b, 0) / values.length;
     }
 
     // Нормализация координат точек лица
