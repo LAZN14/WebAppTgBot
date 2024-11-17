@@ -5,37 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Главное меню</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
-    <div class="container">
-        <div class="menu-container">
-            <h2>Главное меню</h2>
-            <div class="buttons-container">
-                <button id="residents-btn" class="menu-button">
-                    <span class="icon">👥</span>
-                    Просмотр жильцов
-                </button>
-                <button id="intercom-btn" class="menu-button">
-                    <span class="icon">🚪</span>
-                    Управление домофоном
-                </button>
-                <button id="faceid-btn" class="menu-button">
-                    <span class="icon">👤</span>
-                    Настроить Face ID
-                </button>
-            </div>
-        </div>
-        <div class="theme-switcher">
-            <button class="theme-btn" id="theme-toggle">🎨</button>
-            <div class="theme-menu" id="theme-menu">
-                <button class="theme-option" data-theme="light">☀️ Светлая</button>
-                <button class="theme-option" data-theme="dark">🌙 Темная</button>
-                <button class="theme-option" data-theme="gradient">🌈 Градиент</button>
-            </div>
-        </div>
+    <div class="container menu-container">
+        <h1>Главное меню</h1>
+        
+        <button class="menu-btn" id="residents">
+            <img src="icons/residents.png" alt="Жильцы">
+            Просмотр жильцов
+        </button>
+        
+        <button class="menu-btn" id="intercom">
+            <img src="icons/intercom.png" alt="Домофон">
+            Управление домофоном
+        </button>
     </div>
     <script src="menu.js"></script>
-    <script src="theme.js"></script>
 </body>
 </html> 

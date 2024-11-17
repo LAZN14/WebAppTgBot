@@ -1,392 +1,94 @@
-:root {
-    --primary-color: #5288c1;
-    --secondary-color: #4a7fb3;
-    --background-color: #f5f5f5;
-    --text-color: #333;
-    --card-background: white;
-    --menu-button-bg: white;
-    --input-border: #e0e0e0;
-    --shadow-color: rgba(0, 0, 0, 0.1);
-}
-
-[data-theme="dark"] {
-    --primary-color: #7ea8d6;
-    --secondary-color: #6b93c4;
-    --background-color: #1a1a1a;
-    --text-color: #ffffff;
-    --card-background: #2d2d2d;
-    --menu-button-bg: #363636;
-    --input-border: #4a4a4a;
-    --shadow-color: rgba(0, 0, 0, 0.3);
-}
-
-[data-theme="gradient"] {
-    --primary-color: #8e2de2;
-    --secondary-color: #4a00e0;
-    --background: linear-gradient(135deg, #8e2de2 0%, #4a00e0 100%);
-    --text-color: #ffffff;
-    --card-background: rgba(255, 255, 255, 0.1);
-    --menu-button-bg: rgba(255, 255, 255, 0.15);
-    --input-border: rgba(255, 255, 255, 0.2);
-    --shadow-color: rgba(0, 0, 0, 0.2);
-}
-
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 body {
-    background: var(--background-color);
-    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
     min-height: 100vh;
-    transition: all 0.3s ease;
-}
-
-[data-theme="gradient"] body {
-    background: var(--background);
+    background: #8A2BE2;
+    font-family: Arial, sans-serif;
 }
 
 .container {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     position: relative;
-}
-
-.form-container, .menu-container {
-    background: var(--card-background);
-    padding: 40px;
-    border-radius: 20px;
-    box-shadow: 0 8px 24px var(--shadow-color);
-    width: 100%;
     max-width: 400px;
-    backdrop-filter: blur(10px);
-    transition: all 0.3s ease;
-}
-
-input[type="tel"] {
-    width: 100%;
-    padding: 15px;
-    border: 2px solid var(--input-border);
-    border-radius: 12px;
-    font-size: 16px;
-    background: var(--card-background);
-    color: var(--text-color);
-    transition: all 0.3s ease;
-    text-align: center;
-}
-
-input[type="tel"]::placeholder {
-    text-align: center;
-    color: var(--text-color);
-    opacity: 0.6;
-}
-
-.menu-button {
     width: 100%;
     padding: 20px;
-    margin: 10px 0;
-    border: none;
-    border-radius: 15px;
-    background: var(--menu-button-bg);
-    color: var(--text-color);
-    box-shadow: 0 4px 15px var(--shadow-color);
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    font-size: 18px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.theme-switcher {
-    position: fixed;
-    top: 10px;
-    right: 10px;
-    z-index: 1000;
-}
-
-.theme-btn {
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    border: none;
-    cursor: pointer;
-    background: var(--card-background);
-    color: var(--text-color);
-    font-size: 18px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 2px 5px var(--shadow-color);
-    transition: all 0.3s ease;
-    opacity: 0.7;
-}
-
-.theme-btn:hover {
-    opacity: 1;
-    transform: scale(1.1);
-}
-
-.theme-menu {
-    position: absolute;
-    top: 45px;
-    right: 0;
-    background: var(--card-background);
-    border-radius: 8px;
-    padding: 8px;
-    box-shadow: 0 2px 10px var(--shadow-color);
-    display: none;
-    min-width: 130px;
-    backdrop-filter: blur(10px);
-}
-
-.theme-menu.active {
-    display: block;
-    animation: fadeIn 0.3s ease;
-}
-
-.theme-option {
-    padding: 10px 15px;
-    margin: 5px 0;
-    border: none;
-    background: none;
-    color: var(--text-color);
-    cursor: pointer;
-    width: 100%;
-    text-align: left;
-    border-radius: 8px;
-    transition: all 0.2s ease;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.theme-option:hover {
-    background-color: var(--primary-color);
-    color: white;
-}
-
-.phone-input {
     display: flex;
     flex-direction: column;
-    gap: 15px;
-    margin-top: 20px;
-    width: 100%;
+    gap: 20px;
 }
 
-.button {
-    width: 100%;
-    background-color: var(--primary-color);
+h1 {
     color: white;
-    border: none;
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 32px;
+}
+
+.input-container {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
     padding: 15px;
-    border-radius: 12px;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: 500;
-    transition: all 0.3s ease;
+    margin: 20px 0;
 }
 
-.button:hover {
-    background-color: var(--secondary-color);
-    transform: translateY(-2px);
-}
-
-.button:active {
-    transform: translateY(0);
-}
-
-.icon {
-    font-size: 24px;
-}
-
-.hidden {
-    display: none;
-}
-
-h2 {
-    text-align: center;
-    margin-bottom: 30px;
-    color: var(--text-color);
-    font-size: 24px;
-    font-weight: 600;
-}
-
-.buttons-container {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-/* Анимация при нажатии */
-.button:active, .menu-button:active {
-    transform: scale(0.98);
-}
-
-/* Остальные стили остаются без изменений */
-
-.faceid-container {
-    text-align: center;
-}
-
-.camera-container {
+input {
     width: 100%;
-    max-width: 320px;
-    margin: 0 auto 20px;
-    position: relative;
-    overflow: hidden;
-    border-radius: 20px;
-    box-shadow: 0 4px 15px var(--shadow-color);
-}
-
-#video {
-    width: 100%;
-    height: auto;
-    transform: scaleX(-1); /* Зеркальное отображение */
-}
-
-.face-preview {
-    margin-top: 20px;
     padding: 10px;
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 16px;
+    outline: none;
+}
+
+input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+#submit-phone {
+    width: 100%;
+    padding: 15px;
+    border: none;
     border-radius: 15px;
-    background: var(--card-background);
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background 0.3s;
 }
 
-.face-preview img {
-    max-width: 200px;
-    border-radius: 10px;
+#submit-phone:hover {
+    background: rgba(255, 255, 255, 0.3);
 }
 
-.faceid-controls {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-top: 20px;
-}
-
-.faceid-controls .button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-}
-
-.button:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
-
-.divider {
-    text-align: center;
-    position: relative;
-    margin: 15px 0;
-    color: var(--text-color);
-    opacity: 0.7;
-}
-
-.divider::before,
-.divider::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    width: 45%;
-    height: 1px;
-    background-color: var(--text-color);
-    opacity: 0.2;
-}
-
-.divider::before {
-    left: 0;
-}
-
-.divider::after {
-    right: 0;
-}
-
-.faceid-button {
+/* Стили для меню */
+.menu-btn {
+    width: 100%;
+    padding: 20px;
+    border: none;
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s;
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 10px;
-    background-color: var(--secondary-color);
+    gap: 15px;
+    font-size: 18px;
 }
 
-.faceid-button:hover {
-    background-color: var(--primary-color);
+.menu-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.02);
 }
 
-.face-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-}
-
-.status-text {
-    position: absolute;
-    bottom: -30px;
-    left: 0;
-    right: 0;
-    text-align: center;
-    color: var(--text-color);
-    font-size: 14px;
-    padding: 5px;
-}
-
-.camera-container {
-    position: relative;
-    margin-bottom: 40px;
-} 
-
-/* Добавьте эти стили в styles.css */
-
-.face-guide {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 280px;
-    height: 280px;
-    pointer-events: none;
-}
-
-.face-outline {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    border: 2px solid rgba(255, 255, 255, 0.5);
-    border-radius: 50%;
-    animation: pulse 2s infinite;
-}
-
-.scanning-line {
-    position: absolute;
-    width: 100%;
-    height: 2px;
-    background: linear-gradient(90deg, 
-        rgba(0,255,255,0) 0%, 
-        rgba(0,255,255,0.8) 50%, 
-        rgba(0,255,255,0) 100%);
-    top: 50%;
-    animation: scan 2s linear infinite;
-}
-
-@keyframes pulse {
-    0% { transform: scale(1); opacity: 0.5; }
-    50% { transform: scale(1.05); opacity: 0.8; }
-    100% { transform: scale(1); opacity: 0.5; }
-}
-
-@keyframes scan {
-    0% { transform: translateY(-140px); }
-    100% { transform: translateY(140px); }
+.menu-btn img {
+    width: 24px;
+    height: 24px;
 }

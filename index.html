@@ -5,32 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Авторизация</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
-    <div class="container">
-        <div id="auth-form" class="form-container">
-            <h2>Авторизация</h2>
-            <div class="phone-input">
-                <input type="tel" id="phone" placeholder="Номер телефона" maxlength="12">
-                <button id="submit-phone" class="button">Войти</button>
-                <div class="divider">или</div>
-                <button id="faceid-login" class="button faceid-button">
-                    <span class="icon">👤</span>
-                    Войти по Face ID
-                </button>
-            </div>
+    <div class="container auth-container">
+        <h1>Авторизация</h1>
+        
+        <div class="input-container">
+            <input type="text" id="phone" placeholder="Номер телефона">
         </div>
-        <div class="theme-switcher">
-            <button class="theme-btn" id="theme-toggle">🎨</button>
-            <div class="theme-menu" id="theme-menu">
-                <button class="theme-option" data-theme="light">☀️ Светлая</button>
-                <button class="theme-option" data-theme="dark">🌙 Темная</button>
-                <button class="theme-option" data-theme="gradient">🌈 Градиент</button>
-            </div>
-        </div>
+        
+        <button id="submit-phone">Войти</button>
     </div>
     <script src="script.js"></script>
-    <script src="theme.js"></script>
 </body>
 </html> 
