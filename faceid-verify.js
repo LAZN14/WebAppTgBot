@@ -68,44 +68,21 @@ document.addEventListener('DOMContentLoaded', async function() {
                 const face = predictions[0];
                 const { topLeft, bottomRight, landmarks } = face;
                 
-                const faceWidth = bottomRight[0] - topLeft[0];
-                const faceHeight = bottomRight[1] - topLeft[1];
-                const centerX = (topLeft[0] + bottomRight[0]) / 2;
-                const centerY = (topLeft[1] + bottomRight[1]) / 2;
-                
-                const isGoodPosition = 
-                    faceWidth > overlay.width * 0.2 && 
-                    faceWidth < overlay.width * 0.8 &&
-                    faceHeight > overlay.height * 0.2 &&
-                    faceHeight < overlay.height * 0.8 &&
-                    centerX > overlay.width * 0.3 &&
-                    centerX < overlay.width * 0.7 &&
-                    centerY > overlay.height * 0.3 &&
-                    centerY < overlay.height * 0.7;
-
-                ctx.strokeStyle = isGoodPosition ? '#00ff00' : '#ff0000';
-                ctx.lineWidth = 3;
-                ctx.beginPath();
-                ctx.rect(topLeft[0], topLeft[1], faceWidth, faceHeight);
-                ctx.stroke();
-
-                landmarks.forEach(point => {
-                    ctx.fillStyle = '#00ff00';
-                    ctx.beginPath();
-                    ctx.arc(point[0], point[1], 3, 0, 2 * Math.PI);
-                    ctx.fill();
-                });
+                const isGoodPosition = checkFacePosition(face, overlay);
+                drawFaceFrame(ctx, face, isGoodPosition);
 
                 if (isGoodPosition) {
-                    // Проверяем совпадение лица
-                    const similarity = compareFaces(landmarks, savedFace.landmarks);
+                    const similarity = compareFaces(face, savedFace);
                     
-                    if (similarity > 0.7) { // Порог схожести (70%)
+                    if (similarity > 0.8) { // Увеличили порог схожести
                         detectionCount++;
-                        status.textContent = `Удерживайте положение... ${Math.floor((detectionCount/requiredDetections) * 100)}%`;
+                        status.textContent = `Проверка... ${Math.floor((detectionCount/requiredDetections) * 100)}%`;
                         
                         if (detectionCount >= requiredDetections) {
                             status.textContent = 'Лицо подтверждено!';
+                            if (stream) {
+                                stream.getTracks().forEach(track => track.stop());
+                            }
                             setTimeout(() => {
                                 window.location.href = 'menu.html';
                             }, 1000);
@@ -134,24 +111,72 @@ document.addEventListener('DOMContentLoaded', async function() {
         requestAnimationFrame(detectFace);
     }
 
-    // Функция сравнения лиц
-    function compareFaces(landmarks1, landmarks2) {
-        let similarity = 0;
-        const totalPoints = landmarks1.length;
+    function checkFacePosition(face, canvas) {
+        const { topLeft, bottomRight } = face;
+        const faceWidth = bottomRight[0] - topLeft[0];
+        const faceHeight = bottomRight[1] - topLeft[1];
+        const centerX = (topLeft[0] + bottomRight[0]) / 2;
+        const centerY = (topLeft[1] + bottomRight[1]) / 2;
+        
+        return (
+            faceWidth > canvas.width * 0.2 && 
+            faceWidth < canvas.width * 0.8 &&
+            faceHeight > canvas.height * 0.2 &&
+            faceHeight < canvas.height * 0.8 &&
+            centerX > canvas.width * 0.3 &&
+            centerX < canvas.width * 0.7 &&
+            centerY > canvas.height * 0.3 &&
+            centerY < canvas.height * 0.7
+        );
+    }
 
-        // Нормализуем координаты точек
-        const normalizedLandmarks1 = normalizeLandmarks(landmarks1);
-        const normalizedLandmarks2 = normalizeLandmarks(landmarks2);
+    function drawFaceFrame(ctx, face, isGoodPosition) {
+        const { topLeft, bottomRight, landmarks } = face;
+        
+        // Рамка
+        ctx.strokeStyle = isGoodPosition ? '#00ff00' : '#ff0000';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.rect(topLeft[0], topLeft[1], 
+                bottomRight[0] - topLeft[0], 
+                bottomRight[1] - topLeft[1]);
+        ctx.stroke();
 
-        // Считаем схожесть каждой точки
-        for (let i = 0; i < totalPoints; i++) {
-            const dx = normalizedLandmarks1[i][0] - normalizedLandmarks2[i][0];
-            const dy = normalizedLandmarks1[i][1] - normalizedLandmarks2[i][1];
-            const distance = Math.sqrt(dx * dx + dy * dy);
-            similarity += 1 - Math.min(distance, 1);
+        // Точки лица
+        landmarks.forEach(point => {
+            ctx.fillStyle = '#00ff00';
+            ctx.beginPath();
+            ctx.arc(point[0], point[1], 3, 0, 2 * Math.PI);
+            ctx.fill();
+        });
+    }
+
+    function compareFaces(face1, face2) {
+        try {
+            // Сравниваем расположение ключевых точек
+            const landmarks1 = normalizeLandmarks(face1.landmarks);
+            const landmarks2 = normalizeLandmarks(face2.landmarks);
+            
+            let totalDistance = 0;
+            for (let i = 0; i < landmarks1.length; i++) {
+                const dx = landmarks1[i][0] - landmarks2[i][0];
+                const dy = landmarks1[i][1] - landmarks2[i][1];
+                totalDistance += Math.sqrt(dx * dx + dy * dy);
+            }
+            
+            // Сравниваем размеры лица
+            const size1 = face1.bottomRight[0] - face1.topLeft[0];
+            const size2 = face2.faceSize.width;
+            const sizeDiff = Math.abs(size1 - size2) / Math.max(size1, size2);
+            
+            const avgDistance = totalDistance / landmarks1.length;
+            const similarity = 1 - (avgDistance * 0.7 + sizeDiff * 0.3);
+            
+            return similarity;
+        } catch (err) {
+            console.error('Ошибка сравнения лиц:', err);
+            return 0;
         }
-
-        return similarity / totalPoints;
     }
 
     // Нормализация координат точек лица
