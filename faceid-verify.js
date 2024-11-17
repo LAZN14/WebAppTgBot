@@ -13,13 +13,22 @@ document.addEventListener('DOMContentLoaded', async function() {
     // Проверяем, есть ли сохраненное лицо
     const savedFaceData = localStorage.getItem('faceData');
     if (!savedFaceData) {
-        showNotification('Face ID не настроен');
+        showNotification('Face ID не настроен. Сначала настройте Face ID в меню.');
         setTimeout(() => {
             window.location.href = 'index.html';
         }, 1500);
         return;
     }
+
     const savedFace = JSON.parse(savedFaceData);
+    if (!savedFace || !savedFace.landmarks) {
+        localStorage.removeItem('faceData'); // Удаляем некорректные данные
+        showNotification('Ошибка данных Face ID. Настройте Face ID заново.');
+        setTimeout(() => {
+            window.location.href = 'index.html';
+        }, 1500);
+        return;
+    }
 
     async function loadModel() {
         status.textContent = 'Загрузка системы...';
@@ -74,7 +83,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                 if (isGoodPosition) {
                     const similarity = compareFaces(face, savedFace);
                     
-                    if (similarity > 0.8) { // Увеличили порог схожести
+                    if (similarity > 0.85) { // Увеличиваем порог схожести до 85%
                         detectionCount++;
                         status.textContent = `Проверка... ${Math.floor((detectionCount/requiredDetections) * 100)}%`;
                         
@@ -153,7 +162,6 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     function compareFaces(face1, face2) {
         try {
-            // Сравниваем расположение ключевых точек
             const landmarks1 = normalizeLandmarks(face1.landmarks);
             const landmarks2 = normalizeLandmarks(face2.landmarks);
             
@@ -169,8 +177,11 @@ document.addEventListener('DOMContentLoaded', async function() {
             const size2 = face2.faceSize.width;
             const sizeDiff = Math.abs(size1 - size2) / Math.max(size1, size2);
             
+            // Делаем проверку более строгой
             const avgDistance = totalDistance / landmarks1.length;
-            const similarity = 1 - (avgDistance * 0.7 + sizeDiff * 0.3);
+            const similarity = 1 - (avgDistance * 0.8 + sizeDiff * 0.2); // Увеличиваем вес расстояния
+            
+            console.log('Similarity:', similarity); // Для отладки
             
             return similarity;
         } catch (err) {
